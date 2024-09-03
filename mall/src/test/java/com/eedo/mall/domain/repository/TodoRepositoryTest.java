@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -77,5 +78,12 @@ class TodoRepositoryTest {
         System.out.println("result.getTotalElements() = " + result.getTotalElements());
         System.out.println("result.getNumber() = " + result.getNumber());
         System.out.println("result.getContent() = " + result.getContent());
+    }
+
+    @Test
+    public void testSearch1() throws Exception{
+        //given
+
+        todoRepository.search1();
     }
 }
