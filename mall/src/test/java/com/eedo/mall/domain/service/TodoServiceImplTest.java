@@ -1,9 +1,8 @@
 package com.eedo.mall.domain.service;
 
+import com.eedo.mall.domain.dto.PageRequestDTO;
 import com.eedo.mall.domain.dto.TodoDTO;
-import com.eedo.mall.domain.repository.TodoRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -70,8 +69,18 @@ class TodoServiceImplTest {
 
         //then
         assertEquals(todoDTO.getContent(), modify.getContent());
+    }
 
+    @Test
+    public void testGetList() throws Exception{
+        //given
 
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
+
+        //when
+
+        //then
+        todoService.getList(pageRequestDTO);
     }
 
 }

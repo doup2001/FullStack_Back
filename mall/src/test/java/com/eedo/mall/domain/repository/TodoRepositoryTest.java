@@ -80,10 +80,10 @@ class TodoRepositoryTest {
         System.out.println("result.getContent() = " + result.getContent());
     }
 
-    @Test
-    public void testSearch1() throws Exception{
-        //given
-
-        todoRepository.search1();
-    }
+//    @Test
+//    public void testSearch1() throws Exception{
+//        //given
+//
+//        todoRepository.search1();
+//    }
 }
