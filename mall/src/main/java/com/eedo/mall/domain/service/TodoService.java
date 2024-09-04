@@ -1,5 +1,7 @@
 package com.eedo.mall.domain.service;
 
+import com.eedo.mall.domain.dto.PageRequestDTO;
+import com.eedo.mall.domain.dto.PageResponseDTO;
 import com.eedo.mall.domain.dto.TodoDTO;
 import com.eedo.mall.domain.entity.Todo;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,5 +37,9 @@ public interface TodoService {
                 .localDate(todoDTO.getLocalDate())
                 .build();
     }
+
+    PageResponseDTO<TodoDTO> getList(PageRequestDTO pageRequestDTO);
+
+
 
 }

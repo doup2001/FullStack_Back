@@ -1,6 +1,9 @@
 package com.eedo.mall.domain.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.lang.model.element.Element;
@@ -9,28 +12,31 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 
-@Builder(builderMethodName = "withAll")
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Slf4j
-public class PageResponseDTO {
+public class PageResponseDTO<E> {
 
-    private List<Element> dtolist;
+    private List<E> dtolist;
     private List<Integer> pageNumList;
 
     private PageRequestDTO pageRequestDTO;
 
     private boolean prev, next;
 
-    private int totalCount;
-    private int prevPage;
-    private int nextPage;
-    private int totalPage;
-    private int current;
+    private Long totalCount;
+    private Long prevPage;
+    private Long nextPage;
+    private Long totalPage;
+    private Long current;
 
 
-    public PageResponseDTO(List<Element> dtolist, PageRequestDTO pageRequestDTO, Long total) {
+    public PageResponseDTO(List<E> dtolist, PageRequestDTO pageRequestDTO, Long total) {
         this.dtolist = dtolist;
         this.pageRequestDTO = pageRequestDTO;
-        this.totalCount = Math.toIntExact(total);
+        this.totalCount = total;
 
         // 끝페이지부터
         int end = (int) Math.ceil((pageRequestDTO.getPage() / 10.0)) * 10;
@@ -45,8 +51,8 @@ public class PageResponseDTO {
         this.next = totalCount > end * pageRequestDTO.getSize();
         this.pageNumList = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
 
-        this.prevPage = prev ? start - 1 : 0;
-        this.nextPage = next ? end + 1 : 0;
+        this.prevPage = (long) (prev ? start - 1 : 0);
+        this.nextPage = (long) (next ? end + 1 : 0);
 
     }
 

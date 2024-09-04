@@ -1,13 +1,18 @@
 package com.eedo.mall.domain.service;
 
+import com.eedo.mall.domain.dto.PageRequestDTO;
+import com.eedo.mall.domain.dto.PageResponseDTO;
 import com.eedo.mall.domain.dto.TodoDTO;
 import com.eedo.mall.domain.entity.Todo;
 import com.eedo.mall.domain.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -64,6 +69,23 @@ public class TodoServiceImpl implements TodoService{
     @Override
     public Todo dtoToEntity(TodoDTO todoDTO) {
         return TodoService.super.dtoToEntity(todoDTO);
+    }
+
+    @Override
+    public PageResponseDTO<TodoDTO> getList(PageRequestDTO pageRequestDTO) {
+
+        //JPA 내용
+        Page<Todo> result = todoRepository.search1(pageRequestDTO);
+
+        List<TodoDTO> dtoList = result.get().map(todo -> entityToDTO(todo)).collect(Collectors.toList());
+
+        PageResponseDTO<TodoDTO> responseDTO = PageResponseDTO.<TodoDTO>builder()
+                .dtolist(dtoList)
+                .pageRequestDTO(pageRequestDTO)
+                .totalCount(result.getTotalElements())
+                .build();
+
+        return null;
     }
 
 
