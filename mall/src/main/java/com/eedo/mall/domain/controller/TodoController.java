@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @Log4j2
 @RequiredArgsConstructor
@@ -22,11 +24,17 @@ public class TodoController {
     }
 
     @GetMapping("/list")
-    public PageResponseDTO<TodoDTO> getList(PageRequestDTO pageRequestDTO) {
-        log.info("[MyLog]"+ pageRequestDTO.getPage());
-
+    public PageResponseDTO<TodoDTO> getList(@ModelAttribute PageRequestDTO pageRequestDTO) {
+        log.info("[MyLog]" + pageRequestDTO.getPage());
 
         return todoService.getList(pageRequestDTO);
-
     }
+
+    @PostMapping("/")
+    public Map<String,Long> register(@RequestBody TodoDTO dto) {
+        Long tno = todoService.register(dto);
+
+        return Map.of("tno", tno);
+    }
+
 }

@@ -22,11 +22,11 @@ public class PageResponseDTO<E> {
     private int totalCount, prevPage, nextPage, totalPage, current;
 
     @Builder(builderMethodName = "withAll")
-    public PageResponseDTO(List<E> dtoList, PageRequestDTO pageRequestDTO, long totalCount) {
+    public PageResponseDTO(List<E> dtoList, PageRequestDTO pageRequestDTO, long total) {
 
         this.dtoList = dtoList;
         this.pageRequestDTO = pageRequestDTO;
-        this.totalCount = (int)totalCount;
+        this.totalCount = (int)total;
 
         int end =   (int)(Math.ceil( pageRequestDTO.getPage() / 10.0 )) *  10;
 
