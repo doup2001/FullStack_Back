@@ -79,15 +79,14 @@ public class TodoServiceImpl implements TodoService{
 
         List<TodoDTO> dtoList = result.get().map(todo -> entityToDTO(todo)).collect(Collectors.toList());
 
-        PageResponseDTO<TodoDTO> responseDTO = PageResponseDTO.<TodoDTO>builder()
-                .dtolist(dtoList)
+        PageResponseDTO<TodoDTO> responseDTO = PageResponseDTO.<TodoDTO>withAll()
+                .dtoList(dtoList)
                 .pageRequestDTO(pageRequestDTO)
                 .totalCount(result.getTotalElements())
                 .build();
 
-        return null;
+        return responseDTO;
     }
-
 
     //페이징 처리
 

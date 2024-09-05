@@ -1,14 +1,17 @@
 package com.eedo.mall.domain.service;
 
 import com.eedo.mall.domain.dto.PageRequestDTO;
+import com.eedo.mall.domain.dto.PageResponseDTO;
 import com.eedo.mall.domain.dto.TodoDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Slf4j
@@ -80,7 +83,8 @@ class TodoServiceImplTest {
         //when
 
         //then
-        todoService.getList(pageRequestDTO);
+        PageResponseDTO<TodoDTO> list = todoService.getList(pageRequestDTO);
+        log.info("[mylog]" + list);
     }
 
 }
