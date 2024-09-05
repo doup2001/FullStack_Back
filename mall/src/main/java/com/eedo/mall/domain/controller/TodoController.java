@@ -31,10 +31,25 @@ public class TodoController {
     }
 
     @PostMapping("/")
-    public Map<String,Long> register(@RequestBody TodoDTO dto) {
+    public Map<String, Long> register(@RequestBody TodoDTO dto) {
         Long tno = todoService.register(dto);
 
         return Map.of("tno", tno);
     }
 
+    @PutMapping("/{tno}")
+    public Map<String, String> modify(@PathVariable Long tno, @RequestBody TodoDTO modifyDto) {
+        modifyDto.setTno(tno);
+
+        todoService.modify(modifyDto);
+
+        return Map.of("Result", "Update_Success");
+    }
+
+    @DeleteMapping("/{tno}")
+    public Map<String, String> remove(@PathVariable Long tno) {
+        todoService.remove(tno);
+
+        return Map.of("Result", "Delete");
+    }
 }
