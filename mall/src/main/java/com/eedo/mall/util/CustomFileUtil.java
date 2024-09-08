@@ -3,6 +3,8 @@ package com.eedo.mall.util;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Size;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,7 +25,6 @@ public class CustomFileUtil {
 
     @Value("${spring.file.upload.path}") // 프레임워크 value를 사용해야한다.
     private String uploadPath;
-
 
     @PostConstruct // 폴더 없으면 생성!
     public void init() {
@@ -55,6 +56,18 @@ public class CustomFileUtil {
 
             try {
                 Files.copy(file.getInputStream(), savePath);
+
+                String contentType = file.getContentType();
+                if (contentType != null || contentType.startsWith("image")) {
+
+                    // S이름 붙여서 수정
+                    Path ThumbnailPath = Paths.get(uploadPath, "s_" + savedName);
+
+                    // 썸네일 200으로 수정
+                    Thumbnails.of(savePath.toFile()).size(200, 200).toFile(ThumbnailPath.toFile());
+
+                }
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
