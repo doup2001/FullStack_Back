@@ -40,4 +40,10 @@ public class ProductController {
         return FileUtil.getFile(filename);
     }
 
+    @DeleteMapping("view/{filename}")
+    public Map<String,String> deleteFile(@PathVariable List<String> filename){
+        FileUtil.delelteFiles(filename);
+
+        return Map.of("Result", "DELETE" + filename + "Success");
+    }
 }

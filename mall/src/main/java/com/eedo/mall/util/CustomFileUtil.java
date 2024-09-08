@@ -101,4 +101,27 @@ public class CustomFileUtil {
     }
 
 
+    // 파일 여러개 삭제하기
+    public void delelteFiles(List<String> fileNames) {
+        if (fileNames == null || fileNames.isEmpty()) {
+            return;
+        }
+
+        fileNames.forEach(fileName->{
+            String thumbnailFileName = "s+" + fileName;
+
+            Path thumbnailPath = Paths.get(uploadPath, thumbnailFileName);
+            Path filePath = Paths.get(uploadPath, fileName);
+
+            // 존재한다면 삭제 하는 기능
+            try {
+                Files.deleteIfExists(filePath);
+                Files.deleteIfExists(thumbnailPath);
+            } catch (IOException e) {
+                throw new RuntimeException(e.getMessage());
+            }
+        });
+
+    }
+
 }
