@@ -18,6 +18,8 @@ public class CustomServletConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .maxAge(500)
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS")
-                .allowedOrigins("*");
+                .allowedOrigins("http://localhost:3000")
+                .allowedHeaders("Authorization", "Cache-Control", "Content-Type");
+
     }
 }
