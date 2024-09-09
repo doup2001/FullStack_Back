@@ -25,7 +25,7 @@ public class Product {
 
     private String pdesc;
 
-    private boolean delFlage;
+    private boolean delFlag;
 
     @ElementCollection
     @Builder.Default
@@ -47,7 +47,7 @@ public class Product {
     }
 
     public void changeToDelete(boolean delFlage) {
-        this.delFlage = delFlage;
+        this.delFlag = delFlage;
     }
 
     // 비즈니스 로직
