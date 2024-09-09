@@ -1,12 +1,16 @@
 package com.eedo.mall.domain.repository;
 
 import com.eedo.mall.domain.entity.Product;
+import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.UUID;
+
 @SpringBootTest
+@Log4j2
 class ProductRepositoryTest {
 
     @Autowired
@@ -23,14 +27,14 @@ class ProductRepositoryTest {
                 .build();
 
         //when
-        product.addImageString("IMAGE_TEST.png");
+        product.addImageString(UUID.randomUUID()+"_"+"IMAGE_TEST.png");
         productRepository.save(product);
 
         //then
 
         //성공 케이스 작성
         product.getImageList().forEach(image->{
-            Assertions.assertThat(image.getFileName()).isEqualTo("IMAGE_TEST.png");
+            Assertions.assertThat(image.getFileName()).contains("IMAGE_TEST.png");
         });
 
 
