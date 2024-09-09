@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @SpringBootTest
@@ -37,10 +38,30 @@ class ProductRepositoryTest {
             Assertions.assertThat(image.getFileName()).contains("IMAGE_TEST.png");
         });
 
+    }
 
+    @Test
+    public void testInsert2() throws Exception{
+        //given
+        Product product2 = Product.builder()
+                .pname("test2")
+                .price(3000)
+                .pdesc("test2_Product")
+                .delFlage(false)
+                .build();
+
+        product2.addImageString(UUID.randomUUID() + "_" + "TEST_IMAGE2.png");
+        productRepository.save(product2);
+
+        //when
+        Optional<Product> product = productRepository.selectOne(product2.getPno());
+        Product result = product.orElseThrow();
+
+        //then
+
+        log.info("[MYLOG]:" + result.getImageList());
 
 
 
     }
-
 }
