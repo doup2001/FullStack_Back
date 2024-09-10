@@ -1,5 +1,8 @@
 package com.eedo.mall.domain.repository;
 
+import com.eedo.mall.domain.dto.PageRequestDTO;
+import com.eedo.mall.domain.dto.PageResponseDTO;
+import com.eedo.mall.domain.dto.ProductDTO;
 import com.eedo.mall.domain.entity.Product;
 import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assertions;
@@ -123,6 +126,32 @@ class ProductRepositoryTest {
             log.info(Arrays.toString(arr));
         });
 
+    }
+
+    @Test
+    public void testSearch() throws Exception {
+        //given
+
+        for (int i = 0; i < 13; i++) {
+            Product product = Product.builder()
+                    .pname("test " + i)
+                    .price(Integer.parseInt(i + "000"))
+                    .pdesc("test_Product " + i)
+                    .delFlag(false)
+                    .build();
+            product.addImageString(UUID.randomUUID() + "_" + "TEST_IMAGE_" + i + ".png");
+
+            productRepository.save(product);
+        }
+
+        //when
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
+        Pageable pageable = PageRequest.of(pageRequestDTO.getPage() - 1
+                    ,pageRequestDTO.getSize()
+                    ,Sort.by("pno").descending());
+
+        //then
+        productRepository.searchList(pageRequestDTO);
     }
 
 }
