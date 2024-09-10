@@ -30,14 +30,13 @@ public class ProductServiceImpl implements ProductService{
 
         log.info("=== getList ===");
 
-        Pageable pageable = PageRequest.of(pageRequestDTO.getPage(), pageRequestDTO.getSize(), Sort.by("pno").descending());
+        Pageable pageable = PageRequest.of(pageRequestDTO.getPage()-1, pageRequestDTO.getSize(), Sort.by("pno").descending());
 
         Page<Object[]> result = productRepository.selectList(pageable);
 
         log.info(result);
 
         List<ProductDTO> dtoList = result.get().map(arr -> {
-            ProductDTO productDTO = null;
 
             Product product = (Product) arr[0];
             ProductImage productImage = (ProductImage) arr[1];
@@ -61,11 +60,17 @@ public class ProductServiceImpl implements ProductService{
 
         Product product = dtoToEntity(productDTO);
 
-        for (String arr : productDTO.getUploadFileNames()) {
-            product.addImageString(arr);
+        // getUploadFileNames()가 null일 경우 빈 리스트로 초기화
+        List<String> uploadFileNames = productDTO.getUploadFileNames();
+        if (uploadFileNames != null) {
+            for (String arr : uploadFileNames) {
+                product.addImageString(arr);
+            }
         }
+
         return productRepository.save(product).getPno();
     }
+
 
     @Override
     public ProductDTO get(Long pno) {
