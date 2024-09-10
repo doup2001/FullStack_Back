@@ -19,7 +19,7 @@ public class ProductDTO {
     private String pname;
     private int price;
     private String pdesc;
-    private boolean delFlage; // 삭제 여부를 boolean으로
+    private boolean delFlag; // 삭제 여부를 boolean으로
 
     @Builder.Default
     private List<String> uploadFileNames = new ArrayList<>();
