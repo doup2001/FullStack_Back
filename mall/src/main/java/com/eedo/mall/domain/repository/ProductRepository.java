@@ -1,6 +1,5 @@
 package com.eedo.mall.domain.repository;
 
-import com.eedo.mall.domain.dto.ProductDTO;
 import com.eedo.mall.domain.entity.Product;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,8 +16,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> selectOne(@Param("pno") Long pno);
 
     @Modifying // 수정하거나 삭제할때 사용
-    @Query("update Product p set p.delFlag = :delFlag where p.pno :=pno")
-    void updateToDelete(@Param("pno") Long pno, @Param("delFlage") boolean delFlage);
+    @Query("update Product p set p.delFlag = :delFlag where p.pno =:pno")
+    void updateToDelete(@Param("pno") Long pno, @Param("delFlag") boolean delFlag);
 
 
 }

@@ -6,6 +6,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -24,7 +26,7 @@ class ProductRepositoryTest {
                 .pname("test")
                 .price(1000)
                 .pdesc("test_Product")
-                .delFlage(false)
+                .delFlag(false)
                 .build();
 
         //when
@@ -47,7 +49,7 @@ class ProductRepositoryTest {
                 .pname("test2")
                 .price(3000)
                 .pdesc("test2_Product")
-                .delFlage(false)
+                .delFlag(false)
                 .build();
 
         product2.addImageString(UUID.randomUUID() + "_" + "TEST_IMAGE2.png");
@@ -62,6 +64,31 @@ class ProductRepositoryTest {
         log.info("[MYLOG]:" + result.getImageList());
 
 
+    }
+
+    //데이터 삭제 기능 추가
+    @Test
+    @Transactional
+    public void updateToDelete() throws Exception{
+        //given
+        Product product3 = Product.builder()
+                .pname("test3")
+                .price(4000)
+                .pdesc("test3_Product")
+                .delFlag(false)
+                .build();
+
+        //when
+        product3.addImageString(UUID.randomUUID() + "_" + "TEST_IMAGE3.png");
+        productRepository.save(product3);
+
+        //then
+        productRepository.updateToDelete(product3.getPno(), true);
+
+        productRepository.findAll().forEach(product -> {
+            Assertions.assertThat(product.getPno()).isEqualTo(product3.getPno());
+        });
 
     }
+
 }
