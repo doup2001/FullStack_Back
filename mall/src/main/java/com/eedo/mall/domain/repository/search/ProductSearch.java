@@ -7,5 +7,5 @@ import com.eedo.mall.domain.dto.ProductDTO;
 
 public interface ProductSearch {
 
-    PageResponseDTO<ProductDTO> selectList(PageRequestDTO pageRequestDTO);
+    PageResponseDTO<ProductDTO> searchList(PageRequestDTO pageRequestDTO);
 }

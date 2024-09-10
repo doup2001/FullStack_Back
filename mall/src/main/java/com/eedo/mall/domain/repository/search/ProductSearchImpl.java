@@ -26,7 +26,7 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
 
     // QUeryDSL을 사용해서 적용
     @Override
-    public PageResponseDTO<ProductDTO> selectList(PageRequestDTO pageRequestDTO) {
+    public PageResponseDTO<ProductDTO> searchList(PageRequestDTO pageRequestDTO) {
 
         log.info("---- selectList In QueryDSL----");
 
@@ -45,6 +45,7 @@ public class ProductSearchImpl extends QuerydslRepositorySupport implements Prod
 
         List<Product> productList = query.fetch();
         long count = query.fetchCount();
+
         return null;
     }
 }
