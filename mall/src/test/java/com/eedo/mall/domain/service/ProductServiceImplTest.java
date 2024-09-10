@@ -1,17 +1,17 @@
 package com.eedo.mall.domain.service;
 
+import com.eedo.mall.domain.dto.PageRequestDTO;
+import com.eedo.mall.domain.dto.PageResponseDTO;
 import com.eedo.mall.domain.dto.ProductDTO;
 import com.eedo.mall.domain.entity.Product;
 import com.eedo.mall.domain.repository.ProductRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.transaction.Transactional;
 import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,8 +26,9 @@ class ProductServiceImplTest {
 
     @Autowired
     private ProductRepository productRepository;
+
     @Test
-    public void register() throws Exception{
+    public void testRegister() throws Exception{
         //given
         ProductDTO productDTO = ProductDTO.builder()
                 .pname("test")
@@ -37,7 +38,7 @@ class ProductServiceImplTest {
                 .build();
         //when
 
-        List<String> uploadFileNames = List.of(new String[]{UUID.randomUUID()+"_"+"ImageTest"});
+        List<String> uploadFileNames = List.of(new String[]{UUID.randomUUID()+"_"+"ImageRegister"});
         productDTO.setUploadFileNames(uploadFileNames);
         Long registerID = productService.register(productDTO);
 
@@ -49,23 +50,27 @@ class ProductServiceImplTest {
         Assertions.assertThat(expectProduct.getPno()).isSameAs(registerID);
     }
     @Test
-    public void getList() throws Exception{
+    public void testGetList() throws Exception{
         //given
 
         for (int i = 0; i < 13; i++) {
-            Product product = Product.builder()
-                    .pname("test " + i)
+            ProductDTO dto = ProductDTO.builder()
+                    .pname("testByList " + i)
                     .price(Integer.parseInt(i + "000"))
-                    .pdesc("test_Product " + i)
+                    .pdesc("test_List_Product " + i)
                     .delFlag(false)
+                    .uploadFileNames(Collections.singletonList(UUID.randomUUID() + "-" + "ListTest"+i))
                     .build();
-            product.addImageString(UUID.randomUUID() + "_" + "TEST_IMAGE_" + i + ".png");
 
-            ProductDTO productDTO = productService.entityToDTO(product);
-            productService.register(productDTO);
+            productService.register(dto);
         }
         //when
 
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
+
         //then
+        PageResponseDTO<ProductDTO> responseDTO = productService.getList(pageRequestDTO);
+        log.info(responseDTO);
+
     }
 }

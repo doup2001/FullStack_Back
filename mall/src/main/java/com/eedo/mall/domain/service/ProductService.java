@@ -3,9 +3,7 @@ package com.eedo.mall.domain.service;
 import com.eedo.mall.domain.dto.PageRequestDTO;
 import com.eedo.mall.domain.dto.PageResponseDTO;
 import com.eedo.mall.domain.dto.ProductDTO;
-import com.eedo.mall.domain.dto.TodoDTO;
 import com.eedo.mall.domain.entity.Product;
-import com.eedo.mall.domain.entity.Todo;
 
 public interface ProductService {
 
@@ -20,6 +18,7 @@ public interface ProductService {
     default ProductDTO entityToDTO(Product product) {
 
         return ProductDTO.builder()
+                .pno(product.getPno())
                 .pname(product.getPname())
                 .pdesc(product.getPdesc())
                 .delFlag(product.isDelFlag())
@@ -29,6 +28,7 @@ public interface ProductService {
     default Product dtoToEntity(ProductDTO productDTO) {
 
         return Product.builder()
+                .pno(productDTO.getPno())
                 .pname(productDTO.getPname())
                 .pdesc(productDTO.getPdesc())
                 .delFlag(productDTO.isDelFlag())
