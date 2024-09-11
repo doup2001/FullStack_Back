@@ -15,6 +15,11 @@ public interface ProductService {
 
     ProductDTO get(Long pno);
 
+    //수정 및 삭제
+    void modify(ProductDTO productDTO);
+
+    void delete(Long pno);
+
     default ProductDTO entityToDTO(Product product) {
 
         return ProductDTO.builder()
@@ -34,5 +39,4 @@ public interface ProductService {
                 .delFlag(productDTO.isDelFlag())
                 .build();
     }
-
 }
