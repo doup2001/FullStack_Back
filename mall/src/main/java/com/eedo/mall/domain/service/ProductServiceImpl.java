@@ -6,6 +6,7 @@ import com.eedo.mall.domain.dto.ProductDTO;
 import com.eedo.mall.domain.entity.Product;
 import com.eedo.mall.domain.entity.ProductImage;
 import com.eedo.mall.domain.repository.ProductRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ import java.util.Optional;
 @Service
 @Log4j2
 @RequiredArgsConstructor
+@Transactional
 public class ProductServiceImpl implements ProductService{
 
     private final ProductRepository productRepository;
@@ -105,9 +107,6 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public void delete(Long pno) {
-
+        productRepository.updateToDelete(pno, true);
     }
-
-    // 수정 및 삭제 기능 추가
-
 }

@@ -105,4 +105,10 @@ public class ProductController {
 
         return Map.of("Result", "Success");
     }
+
+    @DeleteMapping("/{pno}")
+    public ProductDTO remove(@PathVariable Long pno) {
+        productService.delete(pno);
+        return productService.get(pno);
+    }
 }
