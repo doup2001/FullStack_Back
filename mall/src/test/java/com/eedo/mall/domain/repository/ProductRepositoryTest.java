@@ -1,14 +1,25 @@
 package com.eedo.mall.domain.repository;
 
+import com.eedo.mall.domain.dto.PageRequestDTO;
+import com.eedo.mall.domain.dto.PageResponseDTO;
+import com.eedo.mall.domain.dto.ProductDTO;
 import com.eedo.mall.domain.entity.Product;
 import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -89,6 +100,58 @@ class ProductRepositoryTest {
             Assertions.assertThat(product.getPno()).isEqualTo(product3.getPno());
         });
 
+    }
+
+    @Test
+    public void testList() throws Exception {
+        //given
+        for (int i = 0; i < 13; i++) {
+            Product product = Product.builder()
+                    .pname("test "+i)
+                    .price(Integer.parseInt(i+"000"))
+                    .pdesc("test_Product "+i)
+                    .delFlag(false)
+                    .build();
+
+            product.addImageString(UUID.randomUUID()+"_"+"TEST_IMAGE_"+i+".png");
+
+            productRepository.save(product);
+        }
+        //when
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("pno").descending());
+        Page<Object[]> result = productRepository.selectList(pageable);
+
+        //then
+        result.getContent().forEach(arr -> {
+            log.info(Arrays.toString(arr));
+        });
+
+    }
+
+    @Test
+    public void testSearch() throws Exception {
+        //given
+
+        for (int i = 0; i < 13; i++) {
+            Product product = Product.builder()
+                    .pname("test " + i)
+                    .price(Integer.parseInt(i + "000"))
+                    .pdesc("test_Product " + i)
+                    .delFlag(false)
+                    .build();
+            product.addImageString(UUID.randomUUID() + "_" + "TEST_IMAGE_" + i + ".png");
+
+            productRepository.save(product);
+        }
+
+        //when
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
+        Pageable pageable = PageRequest.of(pageRequestDTO.getPage() - 1
+                    ,pageRequestDTO.getSize()
+                    ,Sort.by("pno").descending());
+
+        //then
+        productRepository.searchList(pageRequestDTO);
     }
 
 }

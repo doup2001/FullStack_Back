@@ -77,7 +77,7 @@ public class CustomFileUtil {
             }
         }
 
-        return null;
+        return uploadNames;
     }
 
 

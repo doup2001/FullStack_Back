@@ -9,6 +9,7 @@ import org.springframework.data.domain.*;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 public class TodoSearchImpl extends QuerydslRepositorySupport implements TodoSearch {
@@ -28,7 +29,7 @@ public class TodoSearchImpl extends QuerydslRepositorySupport implements TodoSea
 
         //페이징 처리가 달라졌다
         Pageable pageable = PageRequest.of(pageRequestDTO.getPage()-1, pageRequestDTO.getSize(), Sort.by("tno").descending());
-        this.getQuerydsl().applyPagination(pageable, query);
+        Objects.requireNonNull(this.getQuerydsl()).applyPagination(pageable, query);
 
         List<Todo> list = query.fetch();// fetch하면 실행가능
         long total = query.fetchCount();
