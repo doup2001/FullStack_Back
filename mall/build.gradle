@@ -39,6 +39,10 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
 
+	// 회원가입 관련 의존성 주입
+	implementation "org.springframework.boot:spring-boot-starter-security"
+	testImplementation "org.springframework.security:spring-security-test"
+
 	// DB 관련 툴
 	implementation 'com.h2database:h2'
 	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
