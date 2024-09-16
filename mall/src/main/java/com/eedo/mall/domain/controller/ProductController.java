@@ -44,7 +44,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public Map<String, Long> register(ProductDTO productDTO) {
+    public Map<String, Long> register(ProductDTO productDTO) throws InterruptedException {
 
         log.info("[My LOG] : register " + productDTO);
 

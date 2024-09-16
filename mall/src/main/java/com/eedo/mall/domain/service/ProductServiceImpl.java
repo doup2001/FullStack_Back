@@ -57,7 +57,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Long register(ProductDTO productDTO) {
+    public Long register(ProductDTO productDTO) throws InterruptedException {
         log.info("=== register ===");
 
         Product product = dtoToEntity(productDTO);
@@ -69,6 +69,8 @@ public class ProductServiceImpl implements ProductService{
                 product.addImageString(arr);
             }
         }
+
+        Thread.sleep(2000);
 
         return productRepository.save(product).getPno();
     }
