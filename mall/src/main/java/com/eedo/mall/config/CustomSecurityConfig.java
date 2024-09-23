@@ -1,5 +1,6 @@
 package com.eedo.mall.config;
 
+import com.eedo.mall.domain.handler.APILoginFailHandler;
 import com.eedo.mall.domain.handler.APILoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -27,6 +28,7 @@ public class CustomSecurityConfig {
                 .formLogin(config -> {
                     config.loginPage("/api/member/login");
                     config.successHandler(new APILoginSuccessHandler());
+                    config.failureHandler(new APILoginFailHandler());
                 })
 
                 .cors(httpSecurityCorsConfigurer ->
