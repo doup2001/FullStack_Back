@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Optional;
+
 
 @SpringBootTest
 @Log4j2
@@ -60,8 +62,8 @@ class MemberRepositoryTest {
 
         //when
 
-        Member member = memberRepository.getWithRoles(email);
-
+        Optional<Member> result = memberRepository.getWithRoles(email);
+        Member member = result.orElseThrow();
 
         //then
         Assertions.assertEquals(member.getNickName(), "USER 9");
