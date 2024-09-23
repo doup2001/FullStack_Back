@@ -1,9 +1,11 @@
 package com.eedo.mall.config;
 
+import com.eedo.mall.domain.handler.APILoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -22,11 +24,19 @@ public class CustomSecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
 
+                .formLogin(config -> {
+                    config.loginPage("/api/member/login");
+                    config.successHandler(new APILoginSuccessHandler());
+                })
+
                 .cors(httpSecurityCorsConfigurer ->
                         httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource())
-                );
+                )
+                .sessionManagement(session->{
+                    session.sessionCreationPolicy(SessionCreationPolicy.NEVER);
+                });
 
-        return null;
+        return http.build();
     }
 
     @Bean
