@@ -1,6 +1,7 @@
 package com.eedo.mall.domain.handler;
 
 import com.eedo.mall.domain.dto.MemberDTO;
+import com.eedo.mall.util.JWTUtil;
 import com.google.gson.Gson;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -25,8 +26,8 @@ public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
         MemberDTO memberDTO = (MemberDTO) authentication.getPrincipal();
 
         Map<String, Object> claims = memberDTO.getClaims();
-        claims.put("accessToken", "");
-        claims.put("refreshToken", "");
+        claims.put("accessToken", JWTUtil.generateToken(claims,10));
+        claims.put("refreshToken", JWTUtil.generateToken(claims,60*24));
 
         //JSon문자열로
         Gson gson = new Gson();
