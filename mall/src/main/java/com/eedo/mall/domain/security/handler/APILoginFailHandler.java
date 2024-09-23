@@ -1,4 +1,4 @@
-package com.eedo.mall.domain.handler;
+package com.eedo.mall.domain.security.handler;
 
 import com.google.gson.Gson;
 import jakarta.servlet.ServletException;

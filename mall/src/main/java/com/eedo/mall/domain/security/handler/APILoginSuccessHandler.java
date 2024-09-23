@@ -1,4 +1,4 @@
-package com.eedo.mall.domain.handler;
+package com.eedo.mall.domain.security.handler;
 
 import com.eedo.mall.domain.dto.MemberDTO;
 import com.eedo.mall.util.JWTUtil;
