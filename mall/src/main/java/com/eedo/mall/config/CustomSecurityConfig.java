@@ -3,6 +3,7 @@ package com.eedo.mall.config;
 import com.eedo.mall.domain.security.handler.APILoginFailHandler;
 import com.eedo.mall.domain.security.handler.APILoginSuccessHandler;
 import com.eedo.mall.domain.security.filter.JWTCheckFilter;
+import com.eedo.mall.domain.security.handler.CustomAccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,7 +42,10 @@ public class CustomSecurityConfig {
                 .sessionManagement(session -> {
                     session.sessionCreationPolicy(SessionCreationPolicy.NEVER);
                 })
+                .exceptionHandling(config->{
+                    config.accessDeniedHandler(new CustomAccessDeniedHandler());
 
+                })
                 .addFilterBefore(new JWTCheckFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
