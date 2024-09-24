@@ -14,7 +14,7 @@ public interface ProductService {
     PageResponseDTO<ProductDTO> getList(PageRequestDTO pageRequestDTO);
 
     // 저장하기
-    Long register(ProductDTO productDTO);
+    Long register(ProductDTO productDTO) throws InterruptedException;
 
     ProductDTO get(Long pno);
 
@@ -29,6 +29,7 @@ public interface ProductService {
                 .pno(product.getPno())
                 .pname(product.getPname())
                 .pdesc(product.getPdesc())
+                .price(product.getPrice())
                 .delFlag(product.isDelFlag())
                 .build();
 
@@ -52,6 +53,7 @@ public interface ProductService {
                 .pno(productDTO.getPno())
                 .pname(productDTO.getPname())
                 .pdesc(productDTO.getPdesc())
+                .price(productDTO.getPrice())
                 .delFlag(productDTO.isDelFlag())
                 .build();
     }
